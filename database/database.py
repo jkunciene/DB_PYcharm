@@ -19,44 +19,61 @@ create_employee_table()
 
 
 def create_employee():
-    connection = sqlite3.connect("employee.db")
-    connection_cursor = connection.cursor()
-    connection_cursor.execute(
-        """INSERT  INTO employees (first_name, last_name, pay_roll) VALUES ('Jonas', 'Aitis', 21)""")
-    connection.commit()
-    connection.close()
+    try:
+        connection = sqlite3.connect("employee.db")
+        connection_cursor = connection.cursor()
+        connection_cursor.execute(
+            """INSERT  INTO employees (first_name, last_name, pay_roll) VALUES ('Jonas', 'Aitis', 21)""")
+        connection.commit()
+        connection.close()
 
 
-create_employee()
+    except:
+        print(sqlite3.Error)
+    finally:
+        connection.close()
 
 
 def select_employee():
-    connection = sqlite3.connect("employee.db")
-    connection_cursor = connection.cursor()
-    connection_cursor.execute("""SELECT * FROM employees""")
-    connection.close()
+    try:
+        connection = sqlite3.connect("employee.db")
+        connection_cursor = connection.cursor()
+        connection_cursor.execute("""SELECT * FROM employees""")
 
+        connection.commit()
 
-select_employee()
+        rows = []
+        for row in connection_cursor.execute("""SELECT * FROM employees"""):
+            rows.append(row)
+
+        print(rows)
+
+        connection.close()
+
+    except:
+        print(sqlite3.Error)
+
+    finally:
+        connection.close()
 
 
 def update_employee():
     connection = sqlite3.connect("employee.db")
     connection_cursor = connection.cursor()
-    connection_cursor.execute("""UPDATE employees SET pay_roll = 30 WHERE id=1""")
+    connection_cursor.execute("""UPDATE employees SET pay_roll = 30 WHERE id=3""")
     connection.commit()
     connection.close()
-
-
-update_employee()
 
 
 def delete_employee():
     connection = sqlite3.connect("employee.db")
     connection_cursor = connection.cursor()
-    connection_cursor.execute("""DELETE FROM employees WHERE id=1""")
+    connection_cursor.execute("""DELETE FROM employees WHERE id=7""")
     connection.commit()
     connection.close()
 
 
+create_employee()
+update_employee()
 delete_employee()
+select_employee()
