@@ -23,7 +23,7 @@ def create_employee():
         connection = sqlite3.connect("employee.db")
         connection_cursor = connection.cursor()
         connection_cursor.execute(
-            """INSERT  INTO employees (first_name, last_name, pay_roll) VALUES ('Jonas', 'Aitis', 21)""")
+            """INSERT  INTO employees (first_name, last_name, pay_roll) VALUES (?, ?, ?) ('Jonas', 'Aitis', 21)""")
         connection.commit()
         connection.close()
 
@@ -49,12 +49,20 @@ def select_employee():
         print(rows)
 
         connection.close()
+        return rows
 
     except:
         print(sqlite3.Error)
 
     finally:
         connection.close()
+
+
+def get_employees_for_admin():
+    all = select_employee()
+    print(all)
+
+get_employees_for_admin()
 
 
 def update_employee():
