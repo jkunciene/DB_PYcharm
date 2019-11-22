@@ -1,5 +1,7 @@
 import sqlite3
 import pprint
+from books_publishers import book
+from books_publishers import publisher
 
 
 def execute_query(db_name, query, entry):
@@ -53,18 +55,27 @@ publishers_table_query = """CREATE TABLE IF NOT EXISTS publishers (
 
 
 # Insert
-def insert_book(book_title, author, publish_date, publisher, selling_price):
+def insert_book(book):
     insert_query = """INSERT INTO books (book_title, author, publish_date, publisher, selling_price) 
                       VALUES(?, ?, ?, ?, ?)"""
-    book = [book_title, author, publish_date, publisher, selling_price]
+    book = [book.book_title, book.author, book.date, book.publisher, book.selling_price]
     execute_query(db_books, insert_query, book)
 
 
-def insert_publisher(publisher_name, book_title, author, printed_quantity, printing_price):
+book = book.book(0, "knygos pavadinimas", "Autorius", 2019, "Alma litera", 31)
+insert_book(book)
+
+
+def insert_publisher(publisher):
     insert_query = """INSERT INTO publishers (publisher_name, book_title, author, printed_quantity, printing_price) 
                       VALUES(?, ?, ?, ?, ?)"""
-    publisher = [publisher_name, book_title, author, printed_quantity, printing_price]
+    publisher = [publisher.publisher_name, publisher.book_title, publisher.author, publisher.printed_quantity,
+                 publisher.printing_price]
     execute_query(db_books, insert_query, publisher)
+
+
+publisher = publisher.publisher(0, "Vaga", "Pavadinimas", "Janionis Julius", 1234, 3)
+insert_publisher(publisher)
 
 
 # Search
@@ -174,6 +185,8 @@ create_table(db_books, books_table_query)
 create_table(db_books, publishers_table_query)
 # insert_book('Zigmas po dangum', 'Janionis', 1998, 'Alma Litera', 25)
 # insert_publisher('Alma litera', 'Zigmas po dangum', 'Janionis', 100, 10)
-get_from_books('Zigm')
-get_from_publishers('Alm')
-get_quantity_price()
+# get_from_books('Zigm')
+# get_from_publishers('Alm')
+# get_quantity_price()
+select_data(db_books, "SELECT * FROM books")
+select_data(db_books, "SELECT * FROM publishers")
