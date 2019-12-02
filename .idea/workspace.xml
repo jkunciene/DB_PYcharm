@@ -2,11 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b154a291-39bc-442e-b0c3-49ec5e6e5e7d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/books_publishers/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/books_publishers/book.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/books_publishers/publisher.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/books.db" beforeDir="false" afterPath="$PROJECT_DIR$/database/books.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/books_publishers/book.py" beforeDir="false" afterPath="$PROJECT_DIR$/books_publishers/book.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/books_publishers/publisher.py" beforeDir="false" afterPath="$PROJECT_DIR$/books_publishers/publisher.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/database/database.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
