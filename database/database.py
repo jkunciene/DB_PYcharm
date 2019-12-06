@@ -37,7 +37,7 @@ def select_data(db_name, query, entry=None):
 
 db_books = "books.db"
 books_table_query = """CREATE TABLE IF NOT EXISTS books (
-                                                        id integer PRIMARY KEY,
+                                                        book_id integer PRIMARY KEY,
                                                         book_title text,
                                                         author text,
                                                         publish_date date,
@@ -45,13 +45,20 @@ books_table_query = """CREATE TABLE IF NOT EXISTS books (
                                                         selling_price numeric
                                                         )"""
 publishers_table_query = """CREATE TABLE IF NOT EXISTS publishers (
-                                                        id integer PRIMARY KEY,
+                                                        publishers_id integer PRIMARY KEY,
                                                         publisher_name text,
                                                         book_title text,
                                                         author text,
                                                         printed_quantity integer,
                                                         printing_price numeric
                                                         )"""
+
+books_publishers_query = """CREATE TABLE IF NOT EXISTS books_publishers(
+                                                                book_id int,
+                                                                publisher_id int,
+                                                                FOREIGN KEY (book_id) REFERENCES books(book_id), 
+                                                                FOREIGN KEY (publisher_id) REFERENCES publishers(publishers_id)
+                                                                )"""
 
 
 # Insert
@@ -62,8 +69,7 @@ def insert_book(book):
     execute_query(db_books, insert_query, book)
 
 
-book = book.book(0, "knygos pavadinimas", "Autorius", 2019, "Alma litera", 31)
-insert_book(book)
+
 
 
 def insert_publisher(publisher):
@@ -74,8 +80,15 @@ def insert_publisher(publisher):
     execute_query(db_books, insert_query, publisher)
 
 
-publisher = publisher.publisher(0, "Vaga", "Pavadinimas", "Janionis Julius", 1234, 3)
-insert_publisher(publisher)
+
+
+
+def insert_books_publishers(book_title, publisher_name):
+    insert_books_publishers_query = """INSERT INTO books_publishers (book_id, publisher_id)
+                                        SELECT(SELECT book_id FROM books WHERE book_title=?), 
+                                        (SELECT publishers_id FROM publishers WHERE publisher_name=?)"""
+    param = (book_title, publisher_name)
+    execute_query(db_books, insert_books_publishers_query, param)
 
 
 # Search
@@ -98,6 +111,9 @@ def get_from_publishers(search_string):
     title = ['%' + search_string + '%']
     select_data(db_books, select_query, title)
 
+def get_books_publishers():
+    select_query = """SELECT * FROM books_publishers """
+    select_data(db_books, select_query)
 
 # Update Book methods
 def update_book_title(new_value, book_id):
@@ -183,10 +199,18 @@ def get_quantity_price():
 
 create_table(db_books, books_table_query)
 create_table(db_books, publishers_table_query)
-# insert_book('Zigmas po dangum', 'Janionis', 1998, 'Alma Litera', 25)
-# insert_publisher('Alma litera', 'Zigmas po dangum', 'Janionis', 100, 10)
+create_table(db_books, books_publishers_query)
+#insert_book('Zigmas po dangum', 'Janionis', 1998, 'Alma Litera', 25)
+#insert_publisher('Alma litera', 'Zigmas po dangum', 'Janionis', 100, 10)
 # get_from_books('Zigm')
 # get_from_publishers('Alm')
 # get_quantity_price()
+book = book.book(0, "knygos pavadinimas", "Autorius", 2019, "Alma litera", 31)
+insert_book(book)
+
+publisher = publisher.publisher(0, "Vaga", "Pavadinimas", "Janionis Julius", 1234, 3)
+insert_publisher(publisher)
+insert_books_publishers('knygos pavadinimas', 'Vaga')
 select_data(db_books, "SELECT * FROM books")
 select_data(db_books, "SELECT * FROM publishers")
+get_books_publishers()
